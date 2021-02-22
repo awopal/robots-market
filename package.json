@@ -16,6 +16,8 @@
   "homepage": "https://bitbucket.org/morphosisteam/robot-market#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "date-fns": "^2.17.0",
+    "numeral": "^2.0.6",
     "react-paginate": "^7.1.0"
   }
 }
