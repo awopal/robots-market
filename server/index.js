@@ -12,6 +12,7 @@ app.get('/api/robots', (req, res) => {
   let robotList = [];
 
   for (let i = 0; i < MAX_ROBOTS; i++) {
+    const id = i;
     const name = faker.name.firstName() + ' ' + faker.name.lastName();
     const image = `https://robohash.org/${name}.png?size=120x120`;
     const price = faker.finance.amount();
@@ -20,6 +21,7 @@ app.get('/api/robots', (req, res) => {
     const material = faker.commerce.productMaterial();
 
     robotList.push({
+      id,
       name,
       image,
       price,
