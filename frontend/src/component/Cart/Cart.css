@@ -3,7 +3,7 @@
   width: 300px;
   height: max-content;
   background-color: #ffc72c;
-  margin: 15px;
+  margin: 10px 15px;
   padding: 15px;
   border-radius: 5px;
   color: rgb(32, 32, 32);
@@ -41,6 +41,7 @@
 
 .image-cart {
   display: flex;
+  background-color: #da291c;
   height: 65px;
   width: 65px;
   margin: 5px;

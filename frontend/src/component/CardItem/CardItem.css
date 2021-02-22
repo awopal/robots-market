@@ -1,7 +1,7 @@
 .card-item {
   height: 320px;
   background-color: #6b9be9;
-  margin: 15px 0px 0px 15px;
+  margin: 0px 0px 15px 15px;
   padding: 15px;
   border-radius: 5px;
   font-size: 20px;
@@ -11,7 +11,7 @@
 .card-item:hover {
   height: 320px;
   background-color: #6b9be9;
-  margin: 15px 0px 0px 15px;
+  margin: 0px 0px 15px 15px;
   padding: 15px;
   border-radius: 5px;
   font-size: 20px;

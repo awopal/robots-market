@@ -14,6 +14,12 @@
   grid-template-columns: auto 25%;
 }
 
+.box-header {
+  display: grid;
+  grid-template-columns: 1fr 22%;
+  justify-items: end;
+}
+
 .box {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -62,10 +68,12 @@ header {
 .pagination > li > a,
 .pagination > li > span {
   color: #ffc72c;
+  padding: 10px;
 }
 .pagination > li:first-child > a,
 .pagination > li:first-child > span,
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
+  padding: 10px;
   border-radius: unset;
 }
