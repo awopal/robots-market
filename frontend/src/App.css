@@ -1,8 +1,12 @@
 .App {
+  display: inline-block;
+  width: 100%;
   background-color: antiquewhite;
-  font-size: 28px;
+  font-size: 22px;
+  font-weight: 600;
   color: #fff;
-  padding-bottom: 300px;
+  padding-bottom: 100px;
+  overflow: hidden;
 }
 
 .container {
@@ -26,4 +30,42 @@ header {
   text-align: center;
   font-size: 40px;
   font-weight: 900;
+}
+
+.pagination {
+  margin: 20px 0px 0px -25px;
+  display: flex;
+  list-style: none;
+  outline: none;
+}
+.pagination > .active > a {
+  background-color: #da291c;
+  border-color: #da291c;
+  color: #fff;
+}
+.pagination > li > a {
+  background-color: #da291c;
+  padding: 5px 10px;
+  outline: none;
+  cursor: pointer;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #ffc72c;
+  color: #da291c;
+  outline: none;
+}
+.pagination > li > a,
+.pagination > li > span {
+  color: #ffc72c;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: unset;
 }
