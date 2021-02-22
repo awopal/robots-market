@@ -1,0 +1,13 @@
+.custom-select {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #da291c;
+  border: 1px solid #ffc72c;
+  background-color: #ffc72c;
+  outline: none;
+}
+
+.box-filter {
+  padding: 10px;
+}

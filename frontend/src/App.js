@@ -3,6 +3,7 @@ import Cart from "./component/Cart/Cart"
 import CardItem from './component/CardItem/CardItem'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate';
+import Filter from './component/Filter/Filter'
 
 import "./App.css"
 
@@ -13,25 +14,46 @@ const initPaginate = {
   currentPage: 1
 }
 
-function App() {
+const materialList = [
+  "Metal",
+  "Concrete",
+  "Rubber",
+  "Frozen",
+  "Plastic",
+  "Wooden",
+  "Cotton",
+  "Granite",
+  "Steel",
+  "Soft",
+  "Fresh",
+]
+
+const App = () => {
   const [paginate, setPaginate] = React.useState(initPaginate)
   const [pageCount, setPageCount] = React.useState()
   const [robotsList, setRobotsList] = React.useState([])
+  const [selectedItems, setSelectedItems] = React.useState([])
+  const [materialSelected, setMaterialSelected] = React.useState("")
 
-  const onClick = (index) => {
-    console.log("hi", index)
+  const filterOptions = materialList
+
+  const handleOnClick = (data) => {
+    setSelectedItems(prevState => [...prevState, data])
   }
 
-  React.useEffect(() => {
+  const getRobots = () => {
     axios({
       method: 'get',
       url: 'http://localhost:8000/api/robots'
     })
       .then(response => {
-        const data = response.data.data
+        let data = response.data.data
+        if (materialSelected !== "") {
+          data = data.filter((d) => { return d.material === materialSelected })
+        }
+
         const robots = data.slice(paginate.offset, paginate.offset + paginate.perPage)
-        console.log(robots)
-        const lists = robots.map((robot, i) => <CardItem data={robot} index={i} onClick={(index) => onClick(index)} />)
+        const lists = robots.map((robot, i) => <CardItem data={robot} index={i} onClick={(data) => handleOnClick(data)} />)
 
         setPageCount(Math.ceil(data.length / paginate.perPage))
         setRobotsList(lists)
@@ -39,7 +61,11 @@ function App() {
       .catch(err => {
         console.error(err)
       })
-  }, [paginate])
+  }
+
+  React.useEffect(() => {
+    getRobots()
+  }, [paginate, materialSelected])
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
@@ -54,24 +80,31 @@ function App() {
   return (
     <div className="App">
       <header>Robot Market</header>
-      <div className="container">
-        <div className="box">
-          {robotsList}
+      <div>
+        <div className="container">
+          <div>
+            <div className="box-header">
+              <ReactPaginate
+                previousLabel={"prev"}
+                nextLabel={"next"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={(e) => handlePageClick(e)}
+                containerClassName={"pagination"}
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"} />
+              <Filter options={filterOptions} onSelected={(item) => setMaterialSelected(item)} />
+            </div>
+            <div className="box">
+              {robotsList}
+            </div>
+          </div>
+          <Cart items={selectedItems} />
         </div>
-        <Cart />
       </div>
-      <ReactPaginate
-        previousLabel={"prev"}
-        nextLabel={"next"}
-        breakLabel={"..."}
-        breakClassName={"break-me"}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={(e) => handlePageClick(e)}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"} />
     </div>
   );
 }
