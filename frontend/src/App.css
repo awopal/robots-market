@@ -1,0 +1,29 @@
+.App {
+  background-color: antiquewhite;
+  font-size: 28px;
+  color: #fff;
+  padding-bottom: 300px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto 25%;
+}
+
+.box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+h1 {
+  font-size: 100px;
+}
+
+header {
+  background-color: #da291c;
+  padding: 10px;
+  color: #ffc72c;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 900;
+}
