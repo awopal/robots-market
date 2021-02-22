@@ -18,8 +18,8 @@ function App() {
   const [pageCount, setPageCount] = React.useState()
   const [robotsList, setRobotsList] = React.useState([])
 
-  const onClick = () => {
-    console.log("hi")
+  const onClick = (index) => {
+    console.log("hi", index)
   }
 
   React.useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
         const data = response.data.data
         const robots = data.slice(paginate.offset, paginate.offset + paginate.perPage)
         console.log(robots)
-        const lists = robots.map((robot, i) => <CardItem data={robot} index={i} onClick={() => onClick()} />)
+        const lists = robots.map((robot, i) => <CardItem data={robot} index={i} onClick={(index) => onClick(index)} />)
 
         setPageCount(Math.ceil(data.length / paginate.perPage))
         setRobotsList(lists)
