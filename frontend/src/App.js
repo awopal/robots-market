@@ -4,7 +4,9 @@ import CardItem from './component/CardItem/CardItem'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate';
 import Filter from './component/Filter/Filter'
+import { ToastContainer, toast } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css"
 
 const initPaginate = {
@@ -37,8 +39,25 @@ const App = () => {
 
   const filterOptions = materialList
 
+  const notify = () => {
+    toast.error("Maximum 5 items")
+  }
+
   const handleOnClick = (data) => {
-    setSelectedItems(prevState => [...prevState, data])
+    setSelectedItems(prevState => {
+      if (prevState.length >= 5) {
+        notify()
+        return [...prevState]
+      }
+      const isDuplicate = prevState.some(state => {
+        return state.id === data.id
+      })
+      if (!isDuplicate) {
+        return [...prevState, data]
+      } else {
+        return [...prevState]
+      }
+    })
   }
 
   const getRobots = () => {
@@ -105,6 +124,7 @@ const App = () => {
           <Cart items={selectedItems} />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

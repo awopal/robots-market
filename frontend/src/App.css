@@ -16,7 +16,7 @@
 
 .box-header {
   display: grid;
-  grid-template-columns: 1fr 22%;
+  grid-template-columns: 1fr 21%;
   justify-items: end;
 }
 
