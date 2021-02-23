@@ -19,6 +19,7 @@ app.get('/api/robots', (req, res) => {
     const stock = faker.random.number({ max: 10, min: 0 });
     const createdAt = faker.date.past();
     const material = faker.commerce.productMaterial();
+    const selected = 1
 
     robotList.push({
       id,
@@ -27,7 +28,8 @@ app.get('/api/robots', (req, res) => {
       price,
       stock,
       createdAt,
-      material
+      material,
+      selected
     });
   }
 

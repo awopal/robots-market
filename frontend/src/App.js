@@ -36,28 +36,81 @@ const App = () => {
   const [robotsList, setRobotsList] = React.useState([])
   const [selectedItems, setSelectedItems] = React.useState([])
   const [materialSelected, setMaterialSelected] = React.useState("")
-
-  const filterOptions = materialList
+  const [soldOutList, setSoldOutList] = React.useState([])
 
   const notify = () => {
     toast.error("Maximum 5 items")
   }
 
+  const outOfStockNotify = (item) => {
+    setSoldOutList(prevState => {
+      return [...prevState, item]
+    })
+    toast.error("Out of Stock")
+  }
+
   const handleOnClick = (data) => {
     setSelectedItems(prevState => {
-      if (prevState.length >= 5) {
+      let newArray = [...prevState]
+      const index = prevState.findIndex(i => { return (i.id === data.id) })
+
+      if (newArray.length >= 5) {
         notify()
-        return [...prevState]
+        return newArray
       }
-      const isDuplicate = prevState.some(state => {
-        return state.id === data.id
-      })
-      if (!isDuplicate) {
+
+      else if (index < 0) {
         return [...prevState, data]
+      } else if (newArray[index].stock <= 1) {
+        outOfStockNotify(newArray[index])
+        return newArray
       } else {
-        return [...prevState]
+        newArray[index] = { ...newArray[index], selected: newArray[index].selected + 1, stock: newArray[index].stock - 1 }
+        return newArray
       }
     })
+  }
+
+  const removeItemOutOfList = (item) => {
+    setSelectedItems(prevState => {
+      const newState = prevState.filter(i => { return (i.id !== item.id) })
+      return newState
+    })
+    setSoldOutList(prevState => {
+      const newState = prevState.filter(i => { return (i.id !== item.id) })
+      return newState
+    })
+  }
+
+  const handleOnAdd = (item) => {
+    setSelectedItems(prevState => {
+      const index = prevState.findIndex(i => { return (i.id === item.id) })
+      let newArray = [...prevState]
+      if (newArray[index].stock <= 1) {
+        outOfStockNotify(newArray[index])
+        return newArray
+      }
+      newArray[index] = { ...newArray[index], selected: newArray[index].selected + 1, stock: newArray[index].stock - 1 }
+      return newArray
+    })
+  }
+
+  const handleOnRemove = (item) => {
+    setSelectedItems(prevState => {
+      const index = prevState.findIndex(i => { return (i.id === item.id) })
+      let newArray = [...prevState]
+      if (newArray[index].selected <= 1) {
+        removeItemOutOfList(item)
+        return newArray
+      }
+      newArray[index] = { ...newArray[index], selected: newArray[index].selected - 1, stock: newArray[index].stock + 1 }
+      return newArray
+    })
+    setSoldOutList(prevState => {
+      const newState = prevState.filter(i => { return (i.id !== item.id) })
+      return newState
+    })
+
   }
 
   const getRobots = () => {
@@ -70,12 +123,9 @@ const App = () => {
         if (materialSelected !== "") {
           data = data.filter((d) => { return d.material === materialSelected })
         }
-
         const robots = data.slice(paginate.offset, paginate.offset + paginate.perPage)
-        const lists = robots.map((robot, i) => <CardItem data={robot} index={i} onClick={(data) => handleOnClick(data)} />)
-
+        setRobotsList(robots)
         setPageCount(Math.ceil(data.length / paginate.perPage))
-        setRobotsList(lists)
       })
       .catch(err => {
         console.error(err)
@@ -87,14 +137,13 @@ const App = () => {
   }, [paginate, materialSelected])
 
   const handlePageClick = (e) => {
+    setSoldOutList([])
     const selectedPage = e.selected;
     const offset = selectedPage * paginate.perPage;
-
     setPaginate({
       ...paginate, currentPage: selectedPage, offset: offset
     })
-
-  };
+  }
 
   return (
     <div className="App">
@@ -115,13 +164,20 @@ const App = () => {
                 containerClassName={"pagination"}
                 subContainerClassName={"pages pagination"}
                 activeClassName={"active"} />
-              <Filter options={filterOptions} onSelected={(item) => setMaterialSelected(item)} />
+              <Filter options={materialList} onSelected={(item) => setMaterialSelected(item)} />
             </div>
             <div className="box">
-              {robotsList}
+              {robotsList.map(robot => {
+                return <CardItem data={robot} soldOutList={soldOutList} onClick={(data) => handleOnClick(data)} />
+              })}
             </div>
           </div>
-          <Cart items={selectedItems} />
+          <Cart
+            items={selectedItems}
+            onAdd={(item) => handleOnAdd(item)}
+            onRemove={(item) => handleOnRemove(item)}
+            removeOutOfList={(item) => removeItemOutOfList(item)}
+          />
         </div>
       </div>
       <ToastContainer />

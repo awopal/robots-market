@@ -1,9 +1,9 @@
-const CountNumber = ({ length }) => {
+const CountNumber = ({ count, onAdd, onRemove }) => {
   return (
     <div className="count-box">
-      <div className="btn"><img src="remove.png" alt="remove" width="15" height="15" /></div>
-      <div className="count">{length}</div>
-      <div className="btn"><img src="add.png" alt="remove" width="15" height="15" /></div>
+      <div className="btn" onClick={() => onRemove()}><img src="remove.png" alt="remove" width="15" height="15" /></div>
+      <div className="count">{count}</div>
+      <div className="btn" onClick={() => onAdd()}><img src="add.png" alt="remove" width="15" height="15" /></div>
     </div>
   )
 }

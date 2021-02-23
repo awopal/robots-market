@@ -8,6 +8,34 @@
   overflow: scroll;
 }
 
+.group {
+  height: 370px;
+}
+
+.add-to-cart {
+  position: relative;
+  bottom: 59px;
+  left: 15px;
+  width: 94.6%;
+  height: 45px;
+  color: #ffc72c;
+  background-color: #da291c;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.soldout {
+  position: relative;
+  bottom: 59px;
+  left: 15px;
+  width: 94.6%;
+  height: 45px;
+  color: rgb(149, 149, 149);
+  background-color: rgb(172, 172, 172);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .card-item:hover {
   height: 320px;
   background-color: #6b9be9;
@@ -28,8 +56,8 @@
 }
 
 .name {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 5px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 215px;
@@ -49,8 +77,16 @@
 }
 
 .price {
-  text-align: right;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 10px;
   font-size: 20px;
   font-weight: 900;
-  color: #ffc72c;
+  margin-right: 10px;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

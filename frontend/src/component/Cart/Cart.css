@@ -97,3 +97,9 @@ hr {
 .font-secondary {
   font-size: 15px;
 }
+
+.padding {
+  text-align: center;
+  font-size: 15px;
+  padding: 10px;
+}
